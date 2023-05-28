@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse, Http404
 from django.contrib import messages
-from django.http import HttpResponse
 from django.urls import reverse
 from django.http import JsonResponse
 import json
@@ -10,6 +10,14 @@ def UsuarioList(request):
     queryset = Usuario.objects.all()
     context = list(queryset.values('id', 'nombre'))
     return JsonResponse(context, safe=False)
+
+def UsuarioDetail(request, id):
+    try:
+        usuario = Usuario.objects.get(id=id)
+        context = {'id': usuario.id, 'nombre': usuario.nombre}
+        return JsonResponse(context)
+    except Usuario.DoesNotExist:
+        raise Http404
 
 def UsuarioCreate(request):
     if request.method == 'POST':
