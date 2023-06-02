@@ -34,9 +34,13 @@ def UsuarioCreate(request):
     if request.method == 'POST':
         data=request.body.decode('utf-8')
         data_json = json.loads(data)
-        usuario = Usuario()
-        usuario.nombre = data_json["nombre"]
-        usuario.profesion = data_json["profesion"]
-        usuario.ips = data_json["ips"]
-        usuario.save()
-        return HttpResponse("successfully created variable")
+        if check_IPS(data_json)== True:
+
+            usuario = Usuario()
+            usuario.nombre = data_json["nombre"]
+            usuario.profesion = data_json["profesion"]
+            usuario.ips = data_json["ips"]
+            usuario.save()
+            return HttpResponse("successfully created usuario")
+        else:
+            return HttpResponse("unsuccessfully created usuario")

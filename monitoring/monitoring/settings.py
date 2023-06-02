@@ -80,7 +80,7 @@ DATABASES = {
         "NAME": "db_usuarios",
         "USER": "usuariodb",
         "PASSWORD": "clave_db",
-        "HOST": "localhost",
+        "HOST": "10.158.0.2",
         "PORT": "5432",
     }
 }
