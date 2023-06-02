@@ -4,7 +4,18 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse
 import json
+import requests
+from django.conf import settings
 from .models import Usuario
+
+def check_IPS(data):
+    r = requests.get(settings.PATH_VAR, headers={"Accept":"application/json"})
+    ipss = r.json()
+    for ips in ipss:
+        if data["ips"] == ips["id"]:
+            return True
+    return False
+
 
 def UsuarioList(request):
     queryset = Usuario.objects.all()
@@ -26,6 +37,6 @@ def UsuarioCreate(request):
         usuario = Usuario()
         usuario.nombre = data_json["nombre"]
         usuario.profesion = data_json["profesion"]
-        usuario.eps = data_json["eps"]
+        usuario.ips = data_json["ips"]
         usuario.save()
         return HttpResponse("successfully created variable")
